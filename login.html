@@ -4,63 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sahara Agro - Admin Gateway</title>
-    <!-- Tailwind CSS CDN for instant atomic UI styling -->
-    <script src="https://tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: #020617; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: screen; height: 100vh; padding: 16px; }
+        .card { width: 100%; max-width: 440px; background-color: #0f172a; border: 1px solid #1e293b; padding: 32px; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .header { text-align: center; margin-bottom: 32px; }
+        .logo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.1); color: #34d399; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2); }
+        h1 { font-size: 24px; font-weight: 900; color: #34d399; letter-spacing: 1px; }
+        .subtitle { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; }
+        input { width: 100%; padding: 14px 16px; background-color: #020617; border: 1px solid #1e293b; border-radius: 12px; color: #f1f5f9; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: #10b981; }
+        button { width: 100%; margin-top: 8px; padding: 16px; background-color: #10b981; color: #020617; border: none; font-weight: 800; font-size: 14px; border-radius: 12px; cursor: pointer; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: background-color 0.2s; }
+        button:hover { background-color: #34d399; }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .error-banner { display: none; background-color: rgba(69,10,10,0.6); border: 1px solid rgba(239,68,68,0.5); padding: 16px; border-radius: 12px; margin-bottom: 24px; font-size: 12px; color: #fca5a5; gap: 12px; }
+        .error-banner.active { display: flex; }
+        .spinner { display: none; width: 18px; height: 18px; border: 3px solid #020617; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 </head>
-<body class="bg-slate-950 flex items-center justify-center min-h-screen text-slate-100 antialiased tracking-tight">
+<body>
 
-    <!-- Central Login Container Card -->
-    <div class="w-full max-w-md p-8 bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 m-4 transition-all">
-        
-        <!-- Brand Header Section -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 mb-4 border border-emerald-500/20">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    <div class="card">
+        <div class="header">
+            <div class="logo-box">
+                <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>
             </div>
-            <h1 class="text-3xl font-black text-emerald-400 tracking-wider">SAHARA AGRO</h1>
-            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mt-1">Central Admin Management Portal</p>
+            <h1>SAHARA AGRO</h1>
+            <div class="subtitle">Central Admin Management Portal</div>
         </div>
 
-        <!-- Dynamic Error Banner Response Layer -->
-        <div id="error-banner" class="hidden mb-6 p-4 bg-red-950/60 border border-red-500/50 text-red-200 text-xs rounded-xl flex items-start gap-3">
-            <svg class="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
+        <div id="error-banner" class="error-banner">
             <div>
-                <span class="font-bold block mb-0.5">Authentication Failed</span>
-                <span id="error-message">Invalid access privileges or system credentials.</span>
+                <strong>Authentication Failed:</strong>
+                <span id="error-message">Invalid credentials.</span>
             </div>
         </div>
 
-        <!-- Input Processing Form -->
-        <form id="login-form" class="space-y-5">
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Corporate Email</label>
-                <input type="email" id="email" required autocomplete="email"
-                    class="w-full px-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition text-slate-200 text-sm placeholder-slate-700" 
-                    placeholder="username@saharaagro.com">
+        <form id="login-form">
+            <div class="form-group">
+                <label>Corporate Email</label>
+                <input type="email" id="email" required placeholder="username@saharaagro.com">
             </div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Security Password</label>
-                <input type="password" id="password" required autocomplete="current-password"
-                    class="w-full px-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition text-slate-200 text-sm placeholder-slate-700" 
-                    placeholder="••••••••">
+            <div class="form-group">
+                <label>Security Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
             </div>
 
-            <!-- Submit Request Trigger Layer -->
-            <button type="submit" id="submit-btn"
-                class="w-full mt-2 py-4 bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-slate-950 font-extrabold text-sm rounded-xl transition-all shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 tracking-wider flex justify-center items-center gap-2">
+            <button type="submit" id="submit-btn">
                 <span id="btn-text">INITIALIZE SECURE ACCESS</span>
-                <svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-slate-950" xmlns="http://w3.org" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
+                <div id="btn-spinner" class="spinner"></div>
             </button>
         </form>
     </div>
+
+    <!-- Ensure your script type="module" block remains completely intact right below here -->
 
     <!-- Firebase Native Browser Client Script Core Modules -->
     <script type="module">
@@ -129,27 +132,25 @@
             }
         });
 
-        function setLoadingState(state) {
+                function setLoadingState(state) {
             if (state) {
                 submitBtn.disabled = true;
                 btnText.textContent = "VERIFYING AUTHORIZATION RECORDFILE...";
-                btnSpinner.classList.remove('hidden');
-                submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                btnSpinner.style.display = "block";
             } else {
                 submitBtn.disabled = false;
                 btnText.textContent = "INITIALIZE SECURE ACCESS";
-                btnSpinner.classList.add('hidden');
-                submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+                btnSpinner.style.display = "none";
             }
         }
 
         function showBanner(text) {
             errorMessage.textContent = text;
-            errorBanner.classList.remove('hidden');
+            errorBanner.classList.add('active');
         }
 
         function hideBanner() {
-            errorBanner.classList.add('hidden');
+            errorBanner.classList.remove('active');
         }
     </script>
 </body>
