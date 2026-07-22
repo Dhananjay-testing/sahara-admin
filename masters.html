@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahara Agro - Masters Configuration</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col md:flex-row">
+
+    <!-- Left Navigation Bar Component -->
+    <aside class="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-6 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="mb-8">
+                <h1 class="text-xl font-black text-emerald-400 tracking-wider">SAHARA AGRO</h1>
+                <p class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">Admin Management Hub</p>
+            </div>
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition rounded-xl text-sm font-medium">
+                    <span>Overview Dashboard</span>
+                </a>
+                <a href="masters.html" class="flex items-center gap-3 px-4 py-3 bg-emerald-500/10 text-emerald-400 rounded-xl font-bold text-sm border border-emerald-500/20">
+                    <span>Masters Config</span>
+                </a>
+                <button onclick="alert('Operations log module loading in the next structural step...')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition rounded-xl text-sm font-medium text-left">
+                    <span>Field Reports Logs</span>
+                </button>
+            </nav>
+        </div>
+        <div class="pt-6 border-t border-slate-800">
+            <button id="logout-btn" class="w-full py-3 bg-slate-950 hover:bg-red-950/40 text-slate-400 hover:text-red-400 text-xs font-bold rounded-xl border border-slate-800 hover:border-red-900/50 transition">
+                DISCONNECT SESSION
+            </button>
+        </div>
+    </aside>
+    <!-- Main Configuration Workspace -->
+    <main class="flex-1 p-6 md:p-10 space-y-8 overflow-y-auto">
+        <div class="border-b border-slate-900 pb-6">
+            <h2 class="text-2xl font-extrabold tracking-tight">Masters & Structure Rules</h2>
+            <p class="text-sm text-slate-400">Define operational constraints, hierarchy frameworks, and regional boundaries</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+                <h3 class="text-base font-bold text-emerald-400">Deploy Corporate Account Hierarchy</h3>
+                <form id="user-provision-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Full Employee Name</label>
+                        <input type="text" id="user-name" required class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="Ex: Amit Sharma">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Corporate Identity Email</label>
+                        <input type="email" id="user-email" required class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="sharma@saharaagro.com">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Organizational Role</label>
+                            <select id="user-role" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm text-slate-300">
+                                <option value="RSM">RSM (Regional Sales Manager)</option>
+                                <option value="Sales Manager">Sales Manager</option>
+                                <option value="Sales Person">Sales Person</option>
+                                <option value="Assistant">Field Assistant</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Assign Zone Region</label>
+                            <input type="text" id="user-region" required class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="Ex: West-Zone Zone A">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-xs rounded-xl tracking-widest uppercase transition">
+                        PROVISION EMPLOYEE PROFILE
+                    </button>
+                </form>
+            </div>
+
+            <!-- Form 2: Operating Allowances & Crop Profiles -->
+            <div class="space-y-6">
+                <!-- Allowance Control Card -->
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+                    <h3 class="text-base font-bold text-emerald-400">Financial Allowance Rules</h3>
+                    <form id="allowance-rules-form" class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Travel Rate (Per KM)</label>
+                            <input type="number" step="0.1" id="rate-per-km" required class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="Ex: 8.50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Daily Calling Cap</label>
+                            <input type="number" id="daily-call-allowance" required class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="Ex: 250">
+                        </div>
+                        <button type="submit" class="col-span-2 py-3 bg-slate-950 hover:bg-slate-800 text-slate-200 font-bold text-xs rounded-xl border border-slate-800 transition tracking-wide">
+                            COMMIT ALLOWANCE COEFFICIENTS
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Crop Register Matrix -->
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+                    <h3 class="text-base font-bold text-emerald-400">Product & Target Crop Catalogs</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="crop-name" class="flex-1 px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 transition text-sm" placeholder="Ex: Cotton / Wheat">
+                        <button id="add-crop-btn" class="px-5 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-bold text-xs rounded-xl border border-emerald-500/20 transition">
+                            APPEND
+                        </button>
+                    </div>
+                    <div id="crop-badge-container" class="flex flex-wrap gap-2 pt-2">
+                        <!-- Dynamic context injection -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Serverless Data Core Module Connection -->
+    <script type="module">
+        import { initializeApp } from "https://gstatic.com";
+        import { getAuth, onAuthStateChanged, signOut } from "https://gstatic.com";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, onSnapshot } from "https://gstatic.com";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA32UevJxodVuAIrDYBxOvGvwFKy0th_oc",
+            authDomain: "://firebaseapp.com",
+            projectId: "sahara-admin-aac24",
+            storageBucket: "sahara-admin-aac24.firebasestorage.app",
+            messagingSenderId: "995243441983",
+            appId: "1:995243441983:web:99aa9256450d837b989d8a",
+            measurementId: "G-DD1XNHJQXW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Security session validation loop
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (!userDoc.exists() || !['Admin', 'RSM'].includes(userDoc.data().role)) {
+                    // Restrict non-administrative execution paths
+                    alert("Privilege level mismatch. Access restricted to Admin or Regional Sales Managers.");
+                    window.location.href = "dashboard.html";
+                }
+            }
+        });
+
+        // Hierarchy Provisioning Engine Logic
+        document.getElementById('user-provision-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('user-name').value.trim();
+            const email = document.getElementById('user-email').value.trim();
+            const role = document.getElementById('user-role').value;
+            const region = document.getElementById('user-region').value.trim();
+
+            try {
+                // Generates an administrative entry reference file inside Firestore user space
+                // Note: Actual Auth record generation occurs using the Mobile app initialization pathway or Firebase Console Admin users.
+                const profileId = email.toLowerCase().replace(/[^a-z0-9]/g, "_");
+                await setDoc(doc(db, "system_configs", "hierarchy", "employees", profileId), {
+                    name, email, role, region, activeStatus: true, dateProvisioned: new Date().toISOString()
+                });
+                alert("Corporate account parameters provisioned for " + name);
+                document.getElementById('user-provision-form').reset();
+            } catch (err) {
+                alert("Write transaction failure: " + err.message);
+            }
+        });
+
+        // Allowance Configuration Event Core Logic
+        document.getElementById('allowance-rules-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const kmRate = parseFloat(document.getElementById('rate-per-km').value);
+            const callCap = parseInt(document.getElementById('daily-call-allowance').value);
+
+            try {
+                await setDoc(doc(db, "system_configs", "allowances"), {
+                    kmRate, callCap, lastModified: new Date().toISOString()
+                }, { merge: true });
+                alert("Financial constraints uploaded successfully.");
+            } catch (err) {
+                alert("Config sync failed: " + err.message);
+            }
+        });
+
+        // Dynamic Real-time Crop Catalog Synchronizer
+        const cropBadgeContainer = document.getElementById('crop-badge-container');
+        
+        onSnapshot(doc(db, "system_configs", "crops"), (docSnap) => {
+            cropBadgeContainer.innerHTML = "";
+            if(docSnap.exists() && docSnap.data().activeList) {
+                docSnap.data().activeList.forEach(crop => {
+                    const badge = document.createElement('span');
+                    badge.className = "text-xs font-bold px-3 py-1.5 bg-slate-950 border border-slate-800 text-emerald-400 rounded-lg";
+                    badge.textContent = crop;
+                    cropBadgeContainer.appendChild(badge);
+                });
+            }
+        });
+
+        document.getElementById('add-crop-btn').addEventListener('click', async () => {
+            const cropInput = document.getElementById('crop-name');
+            const targetCrop = cropInput.value.trim();
+            if(!targetCrop) return;
+
+            try {
+                await setDoc(doc(db, "system_configs", "crops"), {
+                    activeList: arrayUnion(targetCrop)
+                }, { merge: true });
+                cropInput.value = "";
+            } catch (err) {
+                alert("Array manipulation transaction failure: " + err.message);
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            signOut(auth).then(() => { window.location.href = "login.html"; });
+        });
+    </script>
+</body>
+</html>
