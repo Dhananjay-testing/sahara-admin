@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahara Agro - Operations & Reports</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col md:flex-row">
+
+    <!-- Left Navigation Bar Component -->
+    <aside class="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-6 flex flex-col justify-between shrink-0">
+        <div>
+            <div class="mb-8">
+                <h1 class="text-xl font-black text-emerald-400 tracking-wider">SAHARA AGRO</h1>
+                <p class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">Admin Management Hub</p>
+            </div>
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition rounded-xl text-sm font-medium">
+                    <span>Overview Dashboard</span>
+                </a>
+                <a href="masters.html" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition rounded-xl text-sm font-medium">
+                    <span>Masters Config</span>
+                </a>
+                <a href="reports.html" class="flex items-center gap-3 px-4 py-3 bg-emerald-500/10 text-emerald-400 rounded-xl font-bold text-sm border border-emerald-500/20">
+                    <span>Field Reports Logs</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-6 border-t border-slate-800">
+            <button id="logout-btn" class="w-full py-3 bg-slate-950 hover:bg-red-950/40 text-slate-400 hover:text-red-400 text-xs font-bold rounded-xl border border-slate-800 hover:border-red-900/50 transition">
+                DISCONNECT SESSION
+            </button>
+        </div>
+    </aside>
+    <!-- Main Operations Workspace -->
+    <main class="flex-1 p-6 md:p-10 space-y-8 overflow-y-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-900 pb-6">
+            <div>
+                <h2 class="text-2xl font-extrabold tracking-tight">Field Operations Reports</h2>
+                <p class="text-sm text-slate-400">Review live field logs, tracking data, verification photos, and collections</p>
+            </div>
+            <div>
+                <input type="date" id="log-filter-date" class="px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl focus:outline-none focus:border-emerald-500 text-sm font-bold text-slate-200">
+            </div>
+        </div>
+
+        <!-- Section: Daily Attendance Logs -->
+        <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-slate-200">Attendance Log & Odometer Verification</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Live records of field agent shifts with camera check-ins</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400 uppercase font-bold tracking-wider">
+                            <th class="py-3 px-4">Field Agent</th>
+                            <th class="py-3 px-4">Clock-In Time</th>
+                            <th class="py-3 px-4">Odometer (Start)</th>
+                            <th class="py-3 px-4">Clock-Out Time</th>
+                            <th class="py-3 px-4">Odometer (End)</th>
+                            <th class="py-3 px-4 text-right">Odo Proof</th>
+                        </tr>
+                    </table>
+                    <div id="attendance-empty-state" class="text-center py-8 text-slate-500 font-medium bg-slate-950/40 rounded-xl border border-slate-800/50 mt-2">
+                        No field attendance logs synced for selected date criteria.
+                    </div>
+                    <tbody id="attendance-log-table-body" class="divide-y divide-slate-800 font-medium">
+                        <!-- Dynamic code row data injection -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section: Live Visit Tracker & Verification Map Logs -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Table Card Left: Registered Dealers & Farmer Visits -->
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4">
+                <h3 class="font-bold text-slate-200">Client Visits & Order Ledger</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 uppercase font-bold tracking-wider">
+                                <th class="py-3 px-2">Agent / Client</th>
+                                <th class="py-3 px-2">Order Vol</th>
+                                <th class="py-3 px-2">Payment Collected</th>
+                                <th class="py-3 px-2 text-right">GPS Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="visits-log-table-body" class="divide-y divide-slate-800 font-medium">
+                            <!-- Dynamic visit tracking entries -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel Right: Static Routing Map Interface Layout -->
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-200">Point-A-to-Point-B Route Analysis</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Coordinates mapped directly from field mobile validation pings</p>
+                </div>
+                <div class="flex-1 bg-slate-950 rounded-xl min-h-[220px] border border-slate-800 flex items-center justify-center p-6 text-center text-slate-500 text-xs font-semibold relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    <div class="z-10 space-y-2">
+                        <svg class="w-8 h-8 text-emerald-500/40 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                        </svg>
+                        <p id="routing-coordinates-display">Select a sync data record entry to construct structural path vector calculations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Serverless Data Core Engine Connection -->
+    <script type="module">
+        import { initializeApp } from "https://gstatic.com";
+        import { getAuth, onAuthStateChanged, signOut } from "https://gstatic.com";
+        import { getFirestore, doc, getDoc, collection, getDocs, query, where } from "https://gstatic.com";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA32UevJxodVuAIrDYBxOvGvwFKy0th_oc",
+            authDomain: "://firebaseapp.com",
+            projectId: "sahara-admin-aac24",
+            storageBucket: "sahara-admin-aac24.firebasestorage.app",
+            messagingSenderId: "995243441983",
+            appId: "1:995243441983:web:99aa9256450d837b989d8a",
+            measurementId: "G-DD1XNHJQXW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const dateFilterInput = document.getElementById('log-filter-date');
+        
+        // Initialize default search criteria mapping parameter to local system date
+        const todayString = new Date().toISOString().split('T')[0];
+        dateFilterInput.value = todayString;
+
+        // Security session validation loop
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (!userDoc.exists() || !['Admin', 'RSM', 'Sales Manager'].includes(userDoc.data().role)) {
+                    alert("Unauthorized access level path context.");
+                    window.location.href = "dashboard.html";
+                } else {
+                    // Trigger operations dashboard synchronization loops
+                    syncOperationalLogs(dateFilterInput.value);
+                }
+            }
+        });
+
+        // Event listener for dynamic date filtration parameters
+        dateFilterInput.addEventListener('change', (e) => {
+            syncOperationalLogs(e.target.value);
+        });
+
+        async function syncOperationalLogs(targetDate) {
+            const attendanceBody = document.getElementById('attendance-log-table-body');
+            const visitsBody = document.getElementById('visits-log-table-body');
+            const emptyState = document.getElementById('attendance-empty-state');
+            
+            attendanceBody.innerHTML = "";
+            visitsBody.innerHTML = "";
+            emptyState.classList.remove('hidden');
+
+            try {
+                // Query Section A: Pull Attendance matching target operational boundaries
+                const attendanceQuery = query(collection(db, "attendance"), where("date", "==", targetDate));
+                const attendanceSnap = await getDocs(attendanceQuery);
+
+                if (!attendanceSnap.empty) {
+                    emptyState.classList.add('hidden');
+                    attendanceSnap.forEach(docLog => {
+                        const data = docLog.data();
+                        const row = document.createElement('tr');
+                        row.className = "border-b border-slate-800/60 hover:bg-slate-900/60 transition";
+                        row.innerHTML = `
+                            <td class="py-3 px-4 font-bold text-white">${data.agentName || 'Field Op'}</td>
+                            <td class="py-3 px-4 text-slate-300">${data.clockInTime || '--:--'}</td>
+                            <td class="py-3 px-4 font-mono text-emerald-400">${data.startOdoReading || '0'} KM</td>
+                            <td class="py-3 px-4 text-slate-300">${data.clockOutTime || 'Active'}</td>
+                            <td class="py-3 px-4 font-mono text-emerald-400">${data.endOdoReading || '--'} KM</td>
+                            <td class="py-3 px-4 text-right">
+                                <a href="${data.odoPhotoUrl || '#'}" target="_blank" class="px-2 py-1 bg-slate-950 border border-slate-800 rounded text-emerald-400 font-bold hover:bg-emerald-500/10 transition">VIEW PHOTO</a>
+                            </td>
+                        `;
+                        attendanceBody.appendChild(row);
+                    });
+                }
+
+                // Query Section B: Pull Live Daily Client Visit Metrics 
+                const visitsQuery = query(collection(db, "visits"), where("visitDate", "==", targetDate));
+                const visitsSnap = await getDocs(visitsQuery);
+
+                if (!visitsSnap.empty) {
+                    visitsSnap.forEach(visitLog => {
+                        const data = visitLog.data();
+                        const row = document.createElement('tr');
+                        row.className = "border-b border-slate-800/60 hover:bg-slate-900/40 text-slate-300";
+                        
+                        // Fraud mitigation mapping validation flag layout
+                        const gpsMatchedBadge = data.gpsFraudMatch === true 
+                            ? `<span class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded text-[10px] font-bold">MATCHED</span>`
+                            : `<span class="px-2 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded text-[10px] font-bold">OUT-OF-BOUNDS</span>`;
+
+                        row.innerHTML = `
+                            <td class="py-3 px-2 font-medium text-white">${data.agentName || 'Agent'} <span class="text-slate-500 block text-[10px]">${data.clientName || 'Dealer File'}</span></td>
+                            <td class="py-3 px-2 font-mono text-slate-400">INR ${data.orderTotal || '0.00'}</td>
+                            <td class="py-3 px-2 font-mono text-emerald-400 font-bold">INR ${data.paymentCollected || '0.00'}</td>
+                            <td class="py-3 px-2 text-right">${gpsMatchedBadge}</td>
+                        `;
+                        
+                        // Interaction click action listener to generate location coordinates output
+                        row.addEventListener('click', () => {
+                            document.getElementById('routing-coordinates-display').innerHTML = `
+                                <span class="text-emerald-400 font-bold block mb-1">Active Tracker Vector:</span>
+                                Target Coordinates: [${data.clientLat || '0'}, ${data.clientLng || '0'}]<br>
+                                Verification Ping: [${data.captureLat || '0'}, ${data.captureLng || '0'}]<br>
+                                <span class="text-[11px] text-slate-400 mt-2 block font-normal italic">"${data.visitSummary || 'No discussion summary entry logged.'}"</span>
+                            `;
+                        });
+                        
+                        visitsBody.appendChild(row);
+                    });
+                } else {
+                    visitsBody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-600 font-medium">No sales logs or transaction tracking data reported today.</td></tr>`;
+                }
+
+            } catch (err) {
+                console.error("Critical dashboard database sync failure execution path: ", err);
+            }
+        }
+
+        // Session teardown handling
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            signOut(auth).then(() => { window.location.href = "login.html"; });
+        });
+    </script>
+</body>
+</html>
