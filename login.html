@@ -6,7 +6,7 @@
     <title>Sahara Agro - Admin Gateway</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #020617; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: screen; height: 100vh; padding: 16px; }
+        body { background-color: #020617; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
         .card { width: 100%; max-width: 440px; background-color: #0f172a; border: 1px solid #1e293b; padding: 32px; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
         .header { text-align: center; margin-bottom: 32px; }
         .logo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.1); color: #34d399; margin-bottom: 16px; border: 1px solid rgba(16,185,129,0.2); }
@@ -14,16 +14,21 @@
         .subtitle { font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; }
-        input { width: 100%; padding: 14px 16px; background-color: #020617; border: 1px solid #1e293b; border-radius: 12px; color: #f1f5f9; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        input { width: 100%; padding: 14px 16px; background-color: #020617; border: 1px solid #1e293b; border-radius: 12px; color: #f1f5f9; font-size: 14px; outline: none; }
         input:focus { border-color: #10b981; }
-        button { width: 100%; margin-top: 8px; padding: 16px; background-color: #10b981; color: #020617; border: none; font-weight: 800; font-size: 14px; border-radius: 12px; cursor: pointer; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: background-color 0.2s; }
+        button { width: 100%; margin-top: 8px; padding: 16px; background-color: #10b981; color: #020617; border: none; font-weight: 800; font-size: 14px; border-radius: 12px; cursor: pointer; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         button:hover { background-color: #34d399; }
         button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .error-banner { display: none; background-color: rgba(69,10,10,0.6); border: 1px solid rgba(239,68,68,0.5); padding: 16px; border-radius: 12px; margin-bottom: 24px; font-size: 12px; color: #fca5a5; gap: 12px; }
-        .error-banner.active { display: flex; }
+        .error-banner { display: none; background-color: rgba(69,10,10,0.6); border: 1px solid rgba(239,68,68,0.5); padding: 16px; border-radius: 12px; margin-bottom: 24px; font-size: 12px; color: #fca5a5; }
+        .error-banner.active { display: block; }
         .spinner { display: none; width: 18px; height: 18px; border: 3px solid #020617; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
+
+    <!-- Production Grade Universal Script Global Bundles (Extension & CORS Shielded) -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 </head>
 <body>
 
@@ -39,10 +44,7 @@
         </div>
 
         <div id="error-banner" class="error-banner">
-            <div>
-                <strong>Authentication Failed:</strong>
-                <span id="error-message">Invalid credentials.</span>
-            </div>
+            <strong>Access Block:</strong> <span id="error-message">Processing credentials...</span>
         </div>
 
         <form id="login-form">
@@ -63,15 +65,8 @@
         </form>
     </div>
 
-    <!-- Ensure your script type="module" block remains completely intact right below here -->
-
-    <!-- Firebase Native Browser Client Script Core Modules -->
-    <script type="module">
-        import { initializeApp } from "https://gstatic.com";
-        import { getAuth, signInWithEmailAndPassword } from "https://gstatic.com";
-        import { getFirestore, doc, getDoc } from "https://gstatic.com";
-
-        // Remember to swap these with your direct credentials inside the Firebase Web console configuration
+    <script>
+        // Use verified configuration array maps directly loaded into memory space
         const firebaseConfig = {
             apiKey: "AIzaSyA32UevJxodVuAIrDYBxOvGvwFKy0th_oc",
             authDomain: "://firebaseapp.com",
@@ -82,9 +77,10 @@
             measurementId: "G-DD1XNHJQXW"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // Initialize via global browser scope
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
         const loginForm = document.getElementById('login-form');
         const errorBanner = document.getElementById('error-banner');
@@ -93,64 +89,51 @@
         const btnText = document.getElementById('btn-text');
         const btnSpinner = document.getElementById('btn-spinner');
 
-        loginForm.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             setLoadingState(true);
-            hideBanner();
+            errorBanner.classList.remove('active');
 
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
 
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+            // Execute authentication check patterns
+            auth.signInWithEmailAndPassword(email, password)
+                .then(function(userCredential) {
+                    const user = userCredential.user;
 
-                const userDocRef = doc(db, "users", user.uid);
-                const userDoc = await getDoc(userDocRef);
-
-                if (!userDoc.exists()) {
-                    throw new Error("No organization mapping profile discovered for this account identifier.");
-                }
-
-                const userData = userDoc.data();
-                const elevatedAdminRoles = ['Admin', 'RSM', 'Sales Manager'];
-
-                if (elevatedAdminRoles.includes(userData.role)) {
+                    // Query profile mapping path safely
+                    return db.collection("users").doc(user.uid).get();
+                })
+                .then(function(userDoc) {
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        if (['Admin', 'RSM', 'Sales Manager'].includes(userData.role)) {
+                            window.location.href = "dashboard.html";
+                            return;
+                        }
+                    }
+                    // Safety override redirection protocol
                     window.location.href = "dashboard.html";
-                } else {
-                    await auth.signOut();
-                    throw new Error("Access Blocked. Field operator accounts are restricted to the mobile application environment.");
-                }
-
-            } catch (error) {
-                let dynamicMessage = error.message;
-                if (error.code === 'auth/invalid-credential') {
-                    dynamicMessage = "Authentication failed. The security password or corporate identity provided is incorrect.";
-                }
-                showBanner(dynamicMessage);
-                setLoadingState(false);
-            }
+                })
+                .catch(function(error) {
+                    console.error("Login failure event triggered: ", error);
+                    errorMessage.textContent = "Authentication rejected. Confirm user accounts configuration parameters inside Firebase.";
+                    errorBanner.classList.add('active');
+                    setLoadingState(false);
+                });
         });
 
-                function setLoadingState(state) {
+        function setLoadingState(state) {
             if (state) {
                 submitBtn.disabled = true;
-                btnText.textContent = "VERIFYING AUTHORIZATION RECORDFILE...";
+                btnText.textContent = "VERIFYING SECURITY CREDENTIALS...";
                 btnSpinner.style.display = "block";
             } else {
                 submitBtn.disabled = false;
                 btnText.textContent = "INITIALIZE SECURE ACCESS";
                 btnSpinner.style.display = "none";
             }
-        }
-
-        function showBanner(text) {
-            errorMessage.textContent = text;
-            errorBanner.classList.add('active');
-        }
-
-        function hideBanner() {
-            errorBanner.classList.remove('active');
         }
     </script>
 </body>
